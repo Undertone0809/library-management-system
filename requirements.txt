@@ -2,3 +2,4 @@ cushy-storage
 broadcast-service
 cushy-socket
 cushy-serial
+rich

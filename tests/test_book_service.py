@@ -12,9 +12,3 @@ class TestBookService(TestCase):
     def test_read_all(self):
         pass
 
-
-def test():
-    pass
-
-if __name__ == '__main__':
-    test()

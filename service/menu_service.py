@@ -56,6 +56,7 @@ def query_menu():
     _render_books_table(books)
     base_menu()
 
+
 def add_menu():
     book_name = input("[Optional] Please enter book name:")
     author = input("[Optional] Please enter author:")

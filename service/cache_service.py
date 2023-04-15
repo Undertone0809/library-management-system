@@ -113,5 +113,4 @@ def test():
 
     remove_model_data(book)
 
-
 # test()
