@@ -10,20 +10,26 @@ from model.book import Book
 from service import cache_service
 from typing import Optional, List, Union
 
-__all__ = ['show_all_books', 'query_book']
+__all__ = ['show_all_books', 'add_book', 'query_books']
 
 
 def show_all_books() -> Optional[List[dict]]:
     return cache_service.get_all_model_data(Book)
 
 
-def add_book(book: Book) -> Optional[List[dict]]:
+def add_book(name: Optional[str] = None, author: Optional[str] = None, publisher: Optional[str] = None,
+             public_time: Optional[str] = None) -> Optional[List[dict]]:
+    book = Book(name, author, publisher, public_time)
     return cache_service.append_model_data(book)
 
 
-def query_book(book: Book) -> Optional[List[dict]]:
-    return cache_service.query_model_data(book)
+def query_books(name: Optional[str] = None, author: Optional[str] = None, publisher: Optional[str] = None,
+                public_time: Optional[str] = None) -> Optional[List[dict]]:
+    book = Book(name, author, publisher, public_time)
+    return cache_service.query_models_data(book)
 
 
-def query_book(keyword: str) -> Optional[Book]:
-    pass
+def remove_book(name: Optional[str] = None, author: Optional[str] = None, publisher: Optional[str] = None,
+                public_time: Optional[str] = None) -> Optional[List[dict]]:
+    book = Book(name, author, publisher, public_time)
+    return cache_service.remove_model_data(book)

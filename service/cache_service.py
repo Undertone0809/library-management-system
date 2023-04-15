@@ -13,6 +13,7 @@ from typing import Union, Optional, List
 
 logger = logging.getLogger(__name__)
 cache = CushyDict(utils.get_cache_path())
+# utils.enable_log()
 
 
 def _check_model(model: type(BaseModel)):
@@ -44,15 +45,15 @@ def append_model_data(model: BaseModel) -> List[dict]:
 
 
 def query_models_data(model: BaseModel) -> Optional[List[dict]]:
-    ret: List[dict] = []
+    queried_data_list: List[dict] = []
     cache_models: List[dict] = cache[model.__name__]
     for cache_model in cache_models:
         for value in model.__dict__.values():
             if value and value in cache_model.values():
-                ret.append(cache_model)
+                queried_data_list.append(cache_model)
                 break
+    return queried_data_list
 
-    return ret
 
 def query_single_model_data(model: BaseModel) -> Optional[dict]:
     """
@@ -75,27 +76,42 @@ def query_single_model_data(model: BaseModel) -> Optional[dict]:
     for cache_model in cache_models:
         for value in model.__dict__.values():
             if value and value in cache_model.values():
+                logger.debug(f"[query_single_model_data] {cache_model}")
                 return cache_model
     return None
 
 
-def edit_model(model: BaseModel) -> List[dict]:
+def edit_model_data(model: BaseModel) -> List[dict]:
+    queried_model = query_single_model_data(model)
+    cache_models = get_all_model_data(type(model))
+    logger.debug(f"[edit_model_data] original: {cache_models}")
+    cache_models = [model.__dict__ if utils.is_equals(queried_model, cache_model) else cache_model for cache_model in
+                    cache_models]
+    logger.debug(f"[edit_model_data] modified: {cache_models}")
+    cache[model.__name__] = cache_models
+    return cache_models
 
-    res = query_single_model_data(model)
 
-
-def remove_model(model: BaseModel) -> List[dict]:
-    # query model data firstly
-    pass
+def remove_model_data(model: BaseModel) -> List[dict]:
+    queried_model = query_single_model_data(model)
+    cache_models = get_all_model_data(type(model))
+    while queried_model in cache_models:
+        cache_models.remove(queried_model)
+    cache[model.__name__] = cache_models
+    return cache_models
 
 
 def test():
-    book = Book("my_book")
+    book = Book("good book", author="Jack")
     # cache['Book'] = [book.__dict__]
     # append_model_data(book)
     # print(cache['Book'])
-    # print(list(book.__dict__.values()))
-    print(query_models_data(book))
+
+    # print(query_models_data(book))
+
+    # edit_model_data(book)
+
+    remove_model_data(book)
 
 
-test()
+# test()

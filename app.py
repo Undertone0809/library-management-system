@@ -1,10 +1,7 @@
 import logging
-from rich.console import Console
-from rich.table import Column, Table
 from service import menu_service
 
 logger = logging.getLogger(__name__)
-console = Console()
 
 
 def enable_log():
@@ -18,7 +15,7 @@ class LibraryManagementSystemApplication:
 
 
 def main():
-    enable_log()
+    # enable_log()
     app = LibraryManagementSystemApplication()
     app.run()
 

@@ -6,16 +6,9 @@
 
 import os
 import time
+import utils
 from model.base_model import BaseModel
 from typing import Optional, List, Union
-
-
-def generate_id() -> str:
-    """
-    generate a model id
-    :return:
-    """
-    return str(time.time())
 
 
 class Book(BaseModel):
@@ -24,20 +17,8 @@ class Book(BaseModel):
     def __init__(self, name: str, author: Optional[str] = None, publisher: Optional[str] = None,
                  public_time: Optional[str] = None, **kwargs):
         super().__init__()
-        self.id = generate_id()
+        self.id = utils.generate_id()
         self.name = name
         self.author = author
         self.publisher = publisher
         self.public_time = public_time
-
-    def save(self):
-        pass
-
-    def edit(self):
-        pass
-
-    def delete(self):
-        pass
-
-    def add(self):
-        pass

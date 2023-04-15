@@ -5,6 +5,7 @@
 # @Software: PyCharm
 
 import logging
+from model.book import Book
 from rich.console import Console
 from rich.table import Column, Table
 from typing import Callable, Optional, List, Union
@@ -29,6 +30,7 @@ def base_menu():
 
     _choose_func(int(choice))
 
+
 def _choose_func(options):
     funcdic = {
         1: lambda: show_all_menu(),
@@ -42,22 +44,50 @@ def _choose_func(options):
 
 def show_all_menu():
     books = book_service.show_all_books()
-    print(books)
+    _render_books_table(books)
+    base_menu()
+
 
 def query_menu():
-    pass
-
+    book_name = input("[Optional] Please enter book name:")
+    author = input("[Optional] Please enter author:")
+    publisher = input("[Optional] Please enter publisher:")
+    books = book_service.query_books(book_name, author, publisher)
+    _render_books_table(books)
+    base_menu()
 
 def add_menu():
-    pass
+    book_name = input("[Optional] Please enter book name:")
+    author = input("[Optional] Please enter author:")
+    publisher = input("[Optional] Please enter publisher:")
+    publish_time = input("[Optional] Please enter publisher:")
+    books = book_service.add_book(book_name, author, publisher, publish_time)
+    _render_books_table(books)
+    base_menu()
 
 
 def edit_menu():
-    pass
+    book_name = input("[Optional] Please enter book name:")
+    books = book_service.query_books(book_name)
+    _render_books_table(books)
+    base_menu()
 
 
 def remove_menu():
-    pass
+    book_name = input("[Optional] Please enter book name:")
+    books = book_service.remove_book(book_name)
+    _render_books_table(books)
+    base_menu()
 
 
-functions: List[Callable] = [show_all_menu, query_menu, add_menu, edit_menu, remove_menu]
+def _render_books_table(books: Optional[List[dict]]):
+    table = Table(show_header=True, header_style="bold magenta")
+    table.add_column("author", justify="center")
+    table.add_column("id", style="dim", justify="center")
+    table.add_column("book name", justify="center")
+    table.add_column("public time", justify="center")
+    table.add_column("publisher", justify="center")
+
+    for book in books:
+        table.add_row(*tuple(i for j in zip(book.values()) for i in j))
+    console.print(table)

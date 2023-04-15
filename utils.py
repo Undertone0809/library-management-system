@@ -5,12 +5,22 @@
 # @Software: PyCharm
 
 import os
-import sys
+import time
+import hashlib
 import logging
 import datetime
+from typing import Optional, Union, List
 
 cur_time = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
 logger = logging.getLogger(__name__)
+
+
+def generate_id() -> str:
+    """
+    generate a model id
+    :return:
+    """
+    return str(time.time())
 
 
 def get_project_root_path() -> str:
@@ -34,3 +44,15 @@ def check_log_path():
 def get_cache_path():
     return f"{get_project_root_path()}/data"
 
+
+def get_md5(dic: dict):
+    return hashlib.md5(str(dic).encode("utf-8")).hexdigest()
+
+
+def is_equals(dic1: dict, dic2: dict):
+    return hashlib.md5(str(dic1).encode("utf-8")).hexdigest() == hashlib.md5(str(dic2).encode("utf-8")).hexdigest()
+
+
+def enable_log():
+    logging.basicConfig(level=logging.DEBUG,
+                        format='%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s')
