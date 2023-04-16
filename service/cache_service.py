@@ -24,6 +24,16 @@ def _check_model(model: type(BaseModel)):
         cache[model.__name__] = []
 
 
+def get_count(model_type: type(BaseModel)) -> int:
+    """
+    Get the number of model data
+    """
+    _check_model(model_type)
+    count = len(cache[model_type.__name__])
+    logger.debug(f"[get_count] {count}")
+    return count
+
+
 def get_all_model_data(model_type: type(BaseModel)) -> List[dict]:
     _check_model(model_type)
     logger.debug(f"[get_all_model_data] {cache[model_type.__name__]}")
@@ -33,8 +43,6 @@ def get_all_model_data(model_type: type(BaseModel)) -> List[dict]:
 def append_model_data(model: BaseModel) -> List[dict]:
     """
     Add a data after the original data, return all data
-    :param model:
-    :return:
     """
     _check_model(type(model))
     ret: List[dict] = cache[model.__name__]
@@ -59,8 +67,11 @@ def query_single_model_data(model: BaseModel) -> Optional[dict]:
     """
     Query single model data. If more than one data exists, only
     the first query is returned.
-    :param model: For example, you can input a book instance
-    :return:
+
+    Args:
+        model: For example, you can input a book instance
+
+    Returns:
         Returns dict type of instance like as follows:
         {
             'author': None,
@@ -70,7 +81,6 @@ def query_single_model_data(model: BaseModel) -> Optional[dict]:
             'publisher': None
         }
         If there is no result, none is returned.
-
     """
     cache_models: List[dict] = cache[model.__name__]
     for cache_model in cache_models:
@@ -81,7 +91,7 @@ def query_single_model_data(model: BaseModel) -> Optional[dict]:
     return None
 
 
-def edit_model_data(model: BaseModel) -> List[dict]:
+def edit_model_data(model: BaseModel) -> dict:
     queried_model = query_single_model_data(model)
     cache_models = get_all_model_data(type(model))
     logger.debug(f"[edit_model_data] original: {cache_models}")
@@ -89,7 +99,7 @@ def edit_model_data(model: BaseModel) -> List[dict]:
                     cache_models]
     logger.debug(f"[edit_model_data] modified: {cache_models}")
     cache[model.__name__] = cache_models
-    return cache_models
+    return model.__dict__
 
 
 def remove_model_data(model: BaseModel) -> List[dict]:
@@ -103,14 +113,17 @@ def remove_model_data(model: BaseModel) -> List[dict]:
 
 def test():
     book = Book("good book", author="Jack")
+    # 想要测试哪个功能就注释打开哪个部分
     # cache['Book'] = [book.__dict__]
-    # append_model_data(book)
-    # print(cache['Book'])
 
-    # print(query_models_data(book))
+    # append_model_data(book)
+
+    # query_models_data(book)
 
     # edit_model_data(book)
 
-    remove_model_data(book)
+    # remove_model_data(book)
+
+    print(cache['Book'])
 
 # test()

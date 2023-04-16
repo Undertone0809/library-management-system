@@ -61,16 +61,22 @@ def add_menu():
     book_name = input("[Optional] Please enter book name:")
     author = input("[Optional] Please enter author:")
     publisher = input("[Optional] Please enter publisher:")
-    publish_time = input("[Optional] Please enter publisher:")
+    publish_time = input("[Optional] Please enter publish time:")
     books = book_service.add_book(book_name, author, publisher, publish_time)
     _render_books_table(books)
     base_menu()
 
 
 def edit_menu():
-    book_name = input("[Optional] Please enter book name:")
-    books = book_service.query_books(book_name)
-    _render_books_table(books)
+    book_name = input("[Edit Book] Please enter book name you want to edit:")
+    book = book_service.query_single_book(book_name)
+    _render_books_table([book])
+    console.print(":grinning: Edit Your Book Here:")
+    author = input("[Optional] Please enter author:")
+    publisher = input("[Optional] Please enter publisher:")
+    publish_time = input("[Optional] Please enter publish time:")
+    book = book_service.edit_book(book_name,author,publisher,publish_time)
+    _render_books_table([book])
     base_menu()
 
 
@@ -81,7 +87,7 @@ def remove_menu():
     base_menu()
 
 
-def _render_books_table(books: Optional[List[dict]]):
+def _render_books_table(books: List[dict]):
     table = Table(show_header=True, header_style="bold magenta")
     table.add_column("author", justify="center")
     table.add_column("id", style="dim", justify="center")

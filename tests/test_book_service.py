@@ -4,8 +4,10 @@
 # @File    : test_book_service.py
 # @Software: PyCharm
 
+import utils
 from unittest import TestCase
 from service import book_service
+
 
 class TestBookService(TestCase):
 

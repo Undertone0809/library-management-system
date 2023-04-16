@@ -22,10 +22,3 @@ class Book(BaseModel):
         self.author = author
         self.publisher = publisher
         self.public_time = public_time
-
-
-def test():
-    book = Book("aaa")
-    print(book.__dict__)
-
-test()
