@@ -75,7 +75,7 @@ def edit_menu():
     author = input("[Optional] Please enter author:")
     publisher = input("[Optional] Please enter publisher:")
     publish_time = input("[Optional] Please enter publish time:")
-    book = book_service.edit_book(book_name,author,publisher,publish_time)
+    book = book_service.edit_book(book_name, author, publisher, publish_time)
     _render_books_table([book])
     base_menu()
 

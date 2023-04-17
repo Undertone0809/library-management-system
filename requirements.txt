@@ -3,3 +3,4 @@ broadcast-service
 cushy-socket
 cushy-serial
 rich
+Faker

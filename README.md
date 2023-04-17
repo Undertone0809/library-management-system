@@ -22,10 +22,10 @@
 先不说太多了，直接把代码拉下来跑一遍看看效果吧。
 
 ```shell
-git clone https://github.com/Undertone0809/library-management-sysmen
+git clone https://github.com/Undertone0809/library-management-system
 ```
 
-- 导包：打开终端命令行，输入下面的命令
+- 导包：打开终端命令行，输入下面的命令，这一步是下载一些需要的第三方库，这里的主要用的是`cushy-storage`和`rich`
 
 ```shell
 pip install -r requirements.txt
@@ -49,6 +49,7 @@ pip install -r requirements.txt
     <p>系统架构图</p>
 </div>
 
+- 项目初始化的时候使用了`Faker`库进行模拟数据的生成。
 - 进入项目的主入口，你会发现唯一暴露的就是`menu_service.base_menu()`的函数，本项目通过`menu_service`来封装需要显示的模块。
 - 在数据存储上，最底层将`cushy-storage`进行二次封装，形成了`cache_service`，使用`cache_service`，可以轻松地对对象进行增删改查。
 - 对Book的对象级别操作，我们叫做ORM，通过ORM架构，我们可以直接通过操作Book对象来进行增删改查的操作，让代码更加稳定。`book_service`进一步封装了

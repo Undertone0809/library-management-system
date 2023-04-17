@@ -1,12 +1,8 @@
+import utils
 import logging
 from service import menu_service
 
 logger = logging.getLogger(__name__)
-
-
-def enable_log():
-    logging.basicConfig(level=logging.DEBUG,
-                        format='%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s')
 
 
 class LibraryManagementSystemApplication:
@@ -15,7 +11,7 @@ class LibraryManagementSystemApplication:
 
 
 def main():
-    # enable_log()
+    # utils.enable_log()
     app = LibraryManagementSystemApplication()
     app.run()
 
